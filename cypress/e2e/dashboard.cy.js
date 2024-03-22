@@ -22,32 +22,26 @@ describe("E2E Dashboard", function () {
 
   it("Test Navigation to Online", function () {
     for (let i = 0; i < this.machinesLength; i++) {
-      cy.get(
-        "#page-home > div > div > main > div.ant-col.ant-col-24.p-4.css-dev-only-do-not-override-gl5c52 > div > div"
-      )
-        .should("be.visible")
+      cy.wait(500);
+      cy.get(`:nth-child(${i + 1}) > .ant-card > .ant-card-body`)
         .find("button")
         .eq(1)
-        .should("be.visible")
         .click();
-
+      cy.wait(1000);
       cy.url().should("include", "/online");
-
       cy.go("back");
     }
   });
 
   it("Test Navigation to Edit", function () {
     for (let i = 0; i < this.machinesLength; i++) {
-      cy.get(
-        "#page-home > div > div > main > div.ant-col.ant-col-24.p-4.css-dev-only-do-not-override-gl5c52 > div > div"
-      )
-        .should("be.visible")
+      cy.wait(500);
+      cy.get(`:nth-child(${i + 1}) > .ant-card > .ant-card-body`)
         .find("button")
         .eq(2)
-        .should("be.visible")
         .click();
 
+      cy.wait(1000);
       cy.url().should("include", "/machines");
 
       cy.go("back");
@@ -56,17 +50,14 @@ describe("E2E Dashboard", function () {
 
   it("Test Navigation to Cycles", function () {
     for (let i = 0; i < this.machinesLength; i++) {
-      cy.get(
-        "#page-home > div > div > main > div.ant-col.ant-col-24.p-4.css-dev-only-do-not-override-gl5c52 > div > div"
-      )
-        .should("be.visible")
+      cy.wait(500);
+      cy.get(`:nth-child(${i + 1}) > .ant-card > .ant-card-body`)
         .find("button")
         .eq(3)
-        .should("be.visible")
         .click();
 
+      cy.wait(1000);
       cy.url().should("include", "/cycles");
-
       cy.go("back");
     }
   });
