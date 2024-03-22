@@ -6,6 +6,9 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     baseUrl: "http://localhost:5173/#/",
+    video: true,
+    videoCompression: true,
+    videosFolder: "cypress/videos",
     testIsolation: false,
     retries: {
       runMode: 1,
