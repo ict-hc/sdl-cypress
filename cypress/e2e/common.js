@@ -3,6 +3,8 @@ Cypress.Commands.add("makeLogin", function (username, password) {
   cy.clearLocalStorage();
 
   cy.visit("/login");
+  cy.log("We are ready, let's login!");
+  cy.wait(1000);
 
   const userInput =
     ".ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper > #login-form_username";

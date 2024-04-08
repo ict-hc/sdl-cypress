@@ -38,12 +38,44 @@ describe("E2E Machines", function () {
       .click();
   });
 
-  it("Make sure machine has been created", function () {
+  it("Disconnect the machine", function () {
+    cy.wait(1000);
+    cy.get(".ant-card-head-title")
+      .contains("MACHINE_EXAMPLE_1")
+      .parent()
+      .parent()
+      .parent()
+      .find(".editBtn")
+      .click();
+
+    cy.wait(1000);
+
+    cy.get("#topbar .anticon-caret-right").click();
+
+    // Disconnect the machine
+    cy.get("#topbar button").eq(3).click();
+
+    // Confirm
+    cy.get(
+      ".ant-modal-content .ant-modal-footer > .ant-btn-primary > span"
+    ).click();
+  });
+
+  it("Make sure machine has been disconnected", function () {
+    cy.go("back");
     cy.wait(1000);
     cy.get(".ant-card-head-title").contains("MACHINE_EXAMPLE_1");
+
+    cy.get(".ant-card-head-title")
+      .contains("MACHINE_EXAMPLE_1")
+      .parent()
+      .parent()
+      .parent()
+      .find(".ant-card-extra > .ant-tag")
+      .contains("DISCONNECTED");
   });
 
-  it("Edit the machine", function () {
+  it("Reconnect the machine", function () {
     cy.wait(1000);
     cy.get(".ant-card-head-title")
       .contains("MACHINE_EXAMPLE_1")
@@ -55,52 +87,37 @@ describe("E2E Machines", function () {
 
     cy.wait(1000);
 
-    cy.get(this.code).clear();
-    cy.get(this.code).type("MACHINE_EXAMPLE_1_CHANGED");
+    cy.get("#topbar .anticon-caret-right").click();
 
-    cy.get(this.address).clear();
-    cy.get(this.address).type("192.168.1.1");
+    // Reconnect the machine
+    cy.get("#topbar button").eq(4).click();
 
-    cy.get(this.port).clear();
-    cy.get(this.port).type("8080");
-
-    cy.get(this.serial).clear();
-    cy.get(this.serial).type("SERIAL_CHANGED");
-
-    cy.get("#topbar button")
-      .should("be.visible")
-      .eq(2)
-      .contains("Save")
-      .click();
-
-    cy.wait(1000);
+    // Confirm @todo: Fix this 
+    // cy.get(
+    //   ".ant-modal-content .ant-modal-footer > .ant-btn-primary > span"
+    // ).click();
   });
 
-  it("Make sure machine has been edited", function () {
+  it("Make sure machine has been reconnected", function () {
+    cy.go("back");
     cy.wait(1000);
+    cy.get(".ant-card-head-title").contains("MACHINE_EXAMPLE_1");
+
     cy.get(".ant-card-head-title")
       .contains("MACHINE_EXAMPLE_1")
       .parent()
       .parent()
       .parent()
-      .find(".editBtn")
-      .click();
-
-    // Verify updated values.
-    cy.get(this.code)
-      .invoke("val")
-      .should("equal", "MACHINE_EXAMPLE_1_CHANGED");
-    cy.get(this.address).invoke("val").should("equal", "192.168.1.1");
-    cy.get(this.port).invoke("val").should("equal", "8080");
-    cy.get(this.serial).invoke("val").should("equal", "SERIAL_CHANGED");
+      .find(".ant-card-extra > .ant-tag")
+      .contains("OFFLINE");
   });
 
   it("Delete the machine", function () {
-    cy.go("back");
     cy.wait(1000);
     // navigate to machines page
+
     cy.get(".ant-card-head-title")
-      .contains("MACHINE_EXAMPLE_1_CHANGED")
+      .contains("MACHINE_EXAMPLE_1")
       .parent()
       .parent()
       .parent()
@@ -122,7 +139,7 @@ describe("E2E Machines", function () {
     cy.wait(1000);
     cy.get(".ant-card-head-title").should(
       "not.contain",
-      "MACHINE_EXAMPLE_1_CHANGED"
+      "MACHINE_EXAMPLE_1"
     );
   });
 });
