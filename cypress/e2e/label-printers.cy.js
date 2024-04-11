@@ -31,8 +31,8 @@ describe("E2E Label Printers", function () {
     port.click().type("80");
 
     // area selection
-    cy.get("#main-form_area").click();
-    cy.get("[title = 'Default']").click();
+    // cy.get("#main-form_area").click();
+    // cy.get("[title = 'Default']").click();
 
     // default printer?
     // cy.get(
@@ -71,8 +71,11 @@ describe("E2E Label Printers", function () {
 
     code.clear().type("LABEL_PRINTER_EXAMPLE_2");
 
-    // Edit @todo: mettere a posto label
-    cy.get("#topbar button").eq(0).should("be.visible").click();
+    cy.get("#topbar button")
+      .eq(0)
+      .should("be.visible")
+      .contains("Update")
+      .click();
 
     cy.visit("/label-printers");
     cy.get('[title="LABEL_PRINTER_EXAMPLE_2"]').should("be.visible");
