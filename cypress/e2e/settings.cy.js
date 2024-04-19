@@ -1,5 +1,5 @@
 import "./common.js";
-
+/**SETTINGS HAS BEEN DEPRECATED */
 describe("E2E Settings", function () {
   before(() => {
     cy.makeLogin("admin", "Steelc0.");
@@ -38,7 +38,7 @@ describe("E2E Settings", function () {
     // @todo: Validate switchers
     // if() [true, false] autoSaveTXT.should("have.class", "ant-switch-on");
     // click() to on
-    // else 
+    // else
     // click() to off
   });
 });
