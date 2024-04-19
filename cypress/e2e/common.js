@@ -18,5 +18,10 @@ Cypress.Commands.add("makeLogin", function (username, password) {
   cy.get(passwordInput).type(password, { sensitive: true });
 
   cy.get('form[id="loginForm"]').submit();
+
+  cy.wait(1000);
+
+  cy.get(".loginContainer .containerCenter").find("button").eq(0).click();
+
   cy.url().should("not.include", "/login");
 });
