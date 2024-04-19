@@ -73,6 +73,7 @@ describe("E2E Users", function () {
   it("Delete the user", function () {
     cy.wait(500);
     cy.visit("/users/");
+    cy.wait(500);
 
     cy.get('[title="hola@test.com"]')
       .parent()
@@ -86,5 +87,12 @@ describe("E2E Users", function () {
     cy.get(
       ".ant-modal-content .ant-modal-footer > .ant-btn-primary > span"
     ).click();
+  });
+
+  it("Make sure user has been deleted", function () {
+    cy.visit("/users");
+    cy.wait(1000);
+    // @todo: fix this error
+    cy.get('[title="hola@test.com"]').should("not.be.visible");
   });
 });
