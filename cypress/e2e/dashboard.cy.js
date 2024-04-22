@@ -36,7 +36,9 @@ describe("E2E Dashboard", function () {
         .invoke("text")
         .then((text) => {
           const machineCode = text.trim();
-          cy.wrap(machineCode).as("machineCode");
+          const maintenanceText = " - Maintenance in progress";
+          const parsedCode = machineCode.replace(maintenanceText, "");
+          cy.wrap(parsedCode).as("machineCode");
         });
 
       cy.get("body").then(($body) => {
@@ -83,7 +85,9 @@ describe("E2E Dashboard", function () {
         .invoke("text")
         .then((text) => {
           const machineCode = text.trim();
-          cy.wrap(machineCode).as("machineCode");
+          const maintenanceText = " - Maintenance in progress";
+          const parsedCode = machineCode.replace(maintenanceText, "");
+          cy.wrap(parsedCode).as("machineCode");
         });
 
       cy.get("body").then(($body) => {
