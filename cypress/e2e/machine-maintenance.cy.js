@@ -58,7 +58,7 @@ describe("E2E Machine Maintenance", function () {
     cy.get(".ant-card-head-title").contains("MACHINE_EXAMPLE_1");
   });
 
-  it.only("Add Machine to Maintenance", function () {
+  it("Add Machine to Maintenance", function () {
     cy.visit("/machines/");
     cy.wait(1000);
     // Get the maintenance button
@@ -66,12 +66,85 @@ describe("E2E Machine Maintenance", function () {
       .contains("MACHINE_EXAMPLE_1")
       .parent()
       .parent()
+      .parent()
       .find("button")
       .click();
+
+    cy.get(".ant-modal-footer").find("button").eq(1).click();
   });
 
   it("Make sure machine has been added to maintenance", function () {
     cy.wait(1000);
-    cy.get(".ant-card-head-title").contains("MACHINE_EXAMPLE_1");
+    cy.get(".ant-card-head-title")
+      .contains("MACHINE_EXAMPLE_1 - Maintenance in progress")
+      .should("exist");
+
+    cy.visit("/maintenances/");
+    cy.wait(1000);
+    cy.get("[title= 'MACHINE_EXAMPLE_1']").should("exist");
+  });
+
+  it("Remove machine from maintenance", function () {
+    cy.visit("/machines/");
+    cy.wait(2000);
+
+    cy.get(".ant-card-head-title")
+      .contains("MACHINE_EXAMPLE_1")
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .find("button")
+      .click();
+
+    const dropdownSelector =
+      "div.rc-virtual-list div.ant-select-item.ant-select-item-option div.ant-select-item-option-content";
+
+    cy.wait(1000);
+    // add reason
+    cy.get(".col-span-1 > .ant-card-body").find("input").eq(1).click();
+    cy.wait(1000);
+    cy.get(dropdownSelector).eq(0).click();
+    cy.wait(1000);
+    cy.get("#topbar button").should("be.visible").eq(1).click();
+  });
+
+  it("Make sure machine has been removed from maintenance", function () {
+    cy.visit("/machines/");
+    cy.wait(1000);
+    cy.get(".ant-card-head-title")
+      .contains("MACHINE_EXAMPLE_1 - Maintenance in progress")
+      .should("not.exist");
+  });
+
+  it("Delete the machine", function () {
+    cy.visit("/machines/");
+    cy.wait(1000);
+
+    // navigate to machines page
+    cy.get(".ant-card-head-title")
+      .contains("MACHINE_EXAMPLE_1")
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .find(".editBtn")
+      .click();
+
+    cy.get("#topbar .anticon-caret-right").click();
+
+    // Delete button
+    cy.get(".flex > .ant-btn-dangerous").click();
+
+    // Confirm delete
+    cy.get(
+      ".ant-modal-content .ant-modal-footer > .ant-btn-primary > span"
+    ).click();
+  });
+
+  it("Make sure machine has been deleted", function () {
+    cy.wait(1000);
+    cy.get(".ant-card-head-title").should("not.contain", "MACHINE_EXAMPLE_1");
   });
 });
